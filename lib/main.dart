@@ -1,3 +1,6 @@
+import 'package:coffee_masters/pages/menupage.dart';
+import 'package:coffee_masters/pages/offerspage.dart';
+import 'package:coffee_masters/pages/orderpage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -114,6 +117,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    MenuPage(),
+    OffersPage(),
+    OrderPage()
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +140,21 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.brown,
         title: Image.asset("images/logo.png"),
       ),
-      body: const Greet(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(label: "Menu", icon: Icon(Icons.coffee)),
+          BottomNavigationBarItem(
+              label: "Offers", icon: Icon(Icons.local_offer)),
+          BottomNavigationBarItem(
+              label: "Order", icon: Icon(Icons.shopping_cart_checkout_outlined))
+        ],
+        backgroundColor: Theme.of(context).primaryColor,
+        selectedItemColor: Colors.yellow.shade400,
+        unselectedItemColor: Colors.brown.shade50,
+      ),
+      body: _widgetOptions.elementAt(_selectedIndex),
     );
   }
 }
