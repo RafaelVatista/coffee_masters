@@ -1,3 +1,4 @@
+import 'package:coffee_masters/datamanager.dart';
 import 'package:coffee_masters/pages/menupage.dart';
 import 'package:coffee_masters/pages/offerspage.dart';
 import 'package:coffee_masters/pages/orderpage.dart';
@@ -117,6 +118,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var dataManager = DataManager();
   var _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -125,13 +127,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    MenuPage(),
-    OffersPage(),
-    OrderPage()
-  ];
   @override
   Widget build(BuildContext context) {
+    final List<Widget> widgetOptions = <Widget>[
+      MenuPage(dataManager: dataManager),
+      const OffersPage(),
+      OrderPage(dataManager: dataManager)
+    ];
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -154,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedItemColor: Colors.yellow.shade400,
         unselectedItemColor: Colors.brown.shade50,
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: widgetOptions.elementAt(_selectedIndex),
     );
   }
 }
